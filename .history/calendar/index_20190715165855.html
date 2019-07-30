@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0,user-scalable=no" name="viewport">
+        <title>日历控件的页面布局(公历及日历)</title>
+        <link rel="stylesheet" href="index.css">
+    </head>
+    <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="calendar.js" type="text/javascript"></script>
+    <script src="calendarRender.js" type="text/javascript"></script>
+    <!-- 此处calendar.js是别人写好的日历农历转换工具 -->
+   
+    <body>
+        <div id="calendar-box">
+        </div>
+    </body>
+    <script>
+        var htmlSize = function(){
+            var deviceWidth = document.documentElement.clientWidth;
+            if(deviceWidth > 750) deviceWidth = 750;
+            document.documentElement.style.fontSize = deviceWidth / 7.5 + 'px';
+        }
+        htmlSize();
+        window.onresize = function(){
+            htmlSize();
+        };
+
+        // 配置模拟数据：
+        
+    </script>
+</html>

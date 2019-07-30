@@ -1,0 +1,86 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0,user-scalable=no" name="viewport">
+        <title>dropload的演示12</title>
+        <link rel="stylesheet" href="index.css">
+    </head>
+    <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="dropLoad.js"></script>
+    <!-- 加载 Mock -->
+    <script src="http://mockjs.com/dist/mock.js" type="text/javascript"></script>
+    <body>
+        <div id="calendar-box">
+        </div>
+    </body>
+    <script>
+        var htmlSize = function(){
+            var deviceWidth = document.documentElement.clientWidth;
+            if(deviceWidth > 750) deviceWidth = 750;
+            document.documentElement.style.fontSize = deviceWidth / 7.5 + 'px';
+        }
+        htmlSize();
+        window.onresize = function(){
+            htmlSize();
+        };
+
+        // 配置模拟数据：
+        $(function(){
+         Mock.mock('http://g.cn',{
+             "data": [
+                {
+                    "stockCode":"300511",
+                    "stockName":"雪榕生物",
+                    "price":"43.40",
+                    "floatRate":"10.23",
+                    "totalScore":"72",
+                } ,
+                {
+                    "stockCode":"300521",
+                    "stockName":"梅花生物",
+                    "price":"32.21",
+                    "floatRate":"1.23",
+                    "totalScore":"32"
+                }
+            ]
+         });
+         var newsList = $('.lists');
+         function loadAjax(me){
+            $.ajax({
+             url: "http://g.cn",
+             dataType: "json"
+         }).done(function(data, status, xhr){
+             // 滚动解锁
+            me.unLock()
+             for(let i = 0; i < data.data.length; i++){
+                 var news = data.data[i];
+                 newsList.append(`
+                 <div class="item-panel clearfix">
+                    <div class="code">
+                        <p class="code-name">${news.stockName}</p>
+                        <p class="code-num">${news.stockCode}</p>
+                    </div>
+                    <div class="vertical" stockcode="002234" market="2">
+                        <p class="price up ">${news.price}</p>
+                        <p class="floatRate up ">${news.floatRate}</p>
+                    </div>
+                    <div class="vertical">${news.totalScore}</div>
+                   <div>
+                   </div>
+                </div>`);
+             }
+             // 加载数据之后需要重置
+             me.resetload();
+         });
+        } 
+          //综合优选加载
+        $("#zhyx").loadDrop({
+            $element:$("#zhyx"),
+            loadDownFn:function (me) {
+                loadAjax(me)
+            }
+        })
+     })
+    </script>
+</html>
